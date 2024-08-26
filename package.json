@@ -1,0 +1,23 @@
+{
+  "name": "know-your-cosigners",
+  "private": true,
+  "scripts": {
+    "clean": "lerna clean",
+    "unbuild": "lerna run unbuild",
+    "build": "lerna run build --stream",
+    "dev": "lerna run dev"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "author": "Germán Martínez",
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "lerna": "^8.1.8",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

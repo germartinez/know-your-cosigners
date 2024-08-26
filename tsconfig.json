@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/know-your-cosigners-web" },
+    { "path": "packages/know-your-cosigners-service" }
+  ]
+}
