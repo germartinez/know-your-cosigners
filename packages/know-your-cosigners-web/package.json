@@ -1,0 +1,21 @@
+{
+  "name": "know-your-cosigners-web",
+  "version": "0.1.0",
+  "description": "Know Your Co-signers: Web Application",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "unbuild": "rimraf .next",
+    "start": "next start"
+  },
+  "author": "Germán Martínez",
+  "dependencies": {
+    "next": "14.2.6",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
+  }
+}
