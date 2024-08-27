@@ -1,5 +1,7 @@
 'use client'
 
+import SignerList from '@/components/SignersList'
+import { getOwners } from '@/logic/safe'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
@@ -7,21 +9,11 @@ export default function Home() {
   const [signerAddresses, setSignerAddresses] = useState<string[]>([])
 
   useEffect(() => {
-    const init = async () => {
-      // getSigners(safeAddress)
-      if (safeAddress === '') {
-        setSignerAddresses([])
-      } else {
-        setSignerAddresses([
-          '0x0000000000000000000000000000000000000001',
-          '0x0000000000000000000000000000000000000002',
-          '0x0000000000000000000000000000000000000003',
-          '0x0000000000000000000000000000000000000004',
-          '0x0000000000000000000000000000000000000005'
-        ])
-      }
+    const getSigners = async() => {
+      const owners = await getOwners(safeAddress, 1)
+      setSignerAddresses(owners)
     }
-    init()
+    getSigners()
   }, [safeAddress])
 
   const updateSafeAddres = (e: any) => {
@@ -30,20 +22,21 @@ export default function Home() {
 
   return (
     <main className={signerAddresses.length > 0 ? "main-list" : "main-empty"}>
-      <h1>KNOW YOUR CO-SIGNERS</h1>
+      <h1 className={signerAddresses.length > 0 ? "h1-small" : "h1-big"}>
+        <span style={{ color: '#333333' }}>K</span>NOW
+        <br/>
+        <span style={{ color: '#333333' }}>Y</span>OUR
+        <br/>
+        <span style={{ color: '#333333' }}>C</span>O-SIGNERS
+      </h1>
       <input
         type="text"
         value={safeAddress}
         onChange={updateSafeAddres}
+        maxLength={42}
+        autoFocus
       />
-      {signerAddresses.length > 0 && (
-        <>
-          <h2>Signers {signerAddresses && `(${signerAddresses.length})`}</h2>
-          {signerAddresses.map(signerAddress => (
-            <pre key={signerAddress}>{signerAddress}</pre>
-          ))}
-        </>
-      )}
+      <SignerList adresses={signerAddresses} />
     </main>
   )
 }

@@ -13,9 +13,16 @@
 
 h1 {
   color: goldenrod;
+}
+
+.h1-big {
   font-size: 32px;
   margin: 32px auto;
-  text-align: center;
+}
+
+.h1-small {
+  font-size: 14px;
+  margin: 16px auto;
 }
 
 h2 {
@@ -26,7 +33,7 @@ h2 {
 .main-list {
   margin: 0 auto;
   padding: 20px;
-  width: 600px;
+  width: 530px;
 }
 
 .main-empty {
@@ -34,24 +41,37 @@ h2 {
   margin-top: 40vh;
   padding: 20px;
   transform: translate(-50%, -50%);
-  width: 600px;
+  width: 530px;
 }
 
 input[type='text'] {
   border: 2px solid goldenrod;
   border-radius: 8px;
   font-family: monospace;
-  padding: 32px;
+  padding: 24px 32px;
   text-align: center;
   width: 100%;
 }
 
-pre {
+.signer {
   background-color: #ffffff;
-  --border: 1px solid #dcdee0;
   border-radius: 8px;
   color: #636669;
   margin-bottom: 16px;
-  padding: 32px;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+pre {
+  
+}
+
+.tag {
+  border-radius: 12px;
+  color: #ffffff;
+  padding: 10px;
   text-align: center;
+  width: 70px;
 }
