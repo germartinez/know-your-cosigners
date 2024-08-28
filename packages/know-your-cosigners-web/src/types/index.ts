@@ -13,4 +13,6 @@ export type SafeTransaction = {
 export type Signer = {
   address: string
   transactions: SafeTransaction[]
+  gasUsedTotal: bigint
+  feesTotal: bigint
 }

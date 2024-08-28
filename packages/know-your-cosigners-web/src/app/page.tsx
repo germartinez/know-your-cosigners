@@ -54,7 +54,7 @@ export default function Home() {
         <>
           <h2>Signers: {`${signers.length}`}</h2>
           <h2>Transactions: {safeTransactions.length}</h2>
-          <SignerList signers={signers} />
+          <SignerList signers={signers} transactions={safeTransactions} />
         </>
       )}
     </main>

@@ -33,7 +33,7 @@ h2 {
 .main-list {
   margin: 0 auto;
   padding: 20px;
-  width: 530px;
+  width: 600px;
 }
 
 .main-empty {
@@ -41,12 +41,12 @@ h2 {
   margin-top: 40vh;
   padding: 20px;
   transform: translate(-50%, -50%);
-  width: 530px;
+  width: 600px;
 }
 
 input[type='text'] {
   border: 2px solid goldenrod;
-  border-radius: 8px;
+  border-radius: 16px;
   font-family: monospace;
   padding: 24px 32px;
   text-align: center;
@@ -55,17 +55,23 @@ input[type='text'] {
 
 .signer {
   background-color: #ffffff;
-  border-radius: 8px;
-  color: #636669;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  overflow: hidden;
   margin-bottom: 16px;
+}
+.selected-signer {
+  border: 1px solid goldenrod;
+}
+
+.main {
+  background-color: #ffffff;
+  border-radius: 8px 8px 0 0;
   padding: 24px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-pre {
-  
 }
 
 .tag {
@@ -73,5 +79,30 @@ pre {
   color: #ffffff;
   padding: 10px;
   text-align: center;
-  width: 70px;
+  width: 140px;
+}
+
+.info {
+  display: flex;
+  padding: 24px 32px 24px 32px;
+  justify-content: space-between;
+  border-top: 1px solid #f4f4f4;
+}
+
+.line {
+  --padding: 20px;
+  --background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+.bar-box {
+  background-color: #f4f4f4;
+  border-radius: 2px;
+  margin: 8px 0;
+  overflow: hidden;
+  width: 130px;
+}
+
+.bar-value {
+  height: 8px;
 }
