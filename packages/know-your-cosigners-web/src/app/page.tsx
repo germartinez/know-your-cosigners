@@ -1,19 +1,33 @@
 'use client'
 
 import SignerList from '@/components/SignersList'
+import { getSafeTransactions } from '@/logic/envio'
 import { getOwners } from '@/logic/safe'
+import { getSignersStats } from '@/logic/statistics'
+import { SafeTransaction, Signer } from '@/types'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
   const [safeAddress, setSafeAddress] = useState<string>('')
-  const [signerAddresses, setSignerAddresses] = useState<string[]>([])
+  const [signers, setSigners] = useState<Signer[]>([])
+  const [safeTransactions, setSafeTransactions] = useState<SafeTransaction[]>([])
 
   useEffect(() => {
-    const getSigners = async() => {
+    const init = async() => {
+      setSigners([])
+      setSafeTransactions([])
+      if (safeAddress === '') {
+        return
+      }
+
+      const newTransactions = await getSafeTransactions(safeAddress, 1)
       const owners = await getOwners(safeAddress, 1)
-      setSignerAddresses(owners)
+      const newSigners: Signer[] = getSignersStats(newTransactions, owners)
+      
+      setSigners(newSigners)
+      setSafeTransactions(newTransactions!)
     }
-    getSigners()
+    init()
   }, [safeAddress])
 
   const updateSafeAddres = (e: any) => {
@@ -21,8 +35,8 @@ export default function Home() {
   }
 
   return (
-    <main className={signerAddresses.length > 0 ? "main-list" : "main-empty"}>
-      <h1 className={signerAddresses.length > 0 ? "h1-small" : "h1-big"}>
+    <main className={safeAddress === '' ? "main-empty" : "main-list"}>
+      <h1 className={safeAddress === '' ? "h1-big" : "h1-small"}>
         <span style={{ color: '#333333' }}>K</span>NOW
         <br/>
         <span style={{ color: '#333333' }}>Y</span>OUR
@@ -36,7 +50,13 @@ export default function Home() {
         maxLength={42}
         autoFocus
       />
-      <SignerList adresses={signerAddresses} />
+      {signers.length > 0 && (
+        <>
+          <h2>Signers: {`${signers.length}`}</h2>
+          <h2>Transactions: {safeTransactions.length}</h2>
+          <SignerList signers={signers} />
+        </>
+      )}
     </main>
   )
 }

@@ -16,13 +16,12 @@ export async function getOwners(safeAddress: string, chainId: number): Promise<s
     transport: http(),
   })
   
-  const safe = getContract({
-    address: safeAddress as `0x${string}`,
-    abi: safeAbi,
-    client: publicClient
-  })
-
   try {
+    const safe = getContract({
+      address: safeAddress as `0x${string}`,
+      abi: safeAbi,
+      client: publicClient
+    })
     const owners = await safe.read.getOwners() as string[]
     return owners
   } catch(e) {
