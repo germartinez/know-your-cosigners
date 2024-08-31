@@ -1,17 +1,27 @@
-import { SafeTransaction } from "@/types"
+import { Transaction } from '@/types'
 
 const SERVICE_URL = process.env.NEXT_PUBLIC_SERVICE_URL!
 
-export async function getSafeTransactions(
-  safeAddress: string,
+type EnvioTransactionProps = {
+  safeAddress?: string
+  signerAddress?: string
   chainId: number
-): Promise<SafeTransaction[]> {
+}
+
+export async function getEnvioTransactions({
+  safeAddress,
+  signerAddress,
+  chainId
+}: EnvioTransactionProps): Promise<Transaction[]> {
   try {
-    let transactions: SafeTransaction[] = []
+    let transactions: Transaction[] = []
     let nextBlock = 0
     while (nextBlock !== undefined) {
+      const URL = (signerAddress)
+        ? `${SERVICE_URL}/transactions?signer=${signerAddress}&chainId=${chainId}&nextBlock=${nextBlock}`
+        : `${SERVICE_URL}/transactions?safe=${safeAddress}&chainId=${chainId}&nextBlock=${nextBlock}`
       const request = await fetch(
-        `${SERVICE_URL}/transactions?address=${safeAddress}&chainId=${chainId}&nextBlock=${nextBlock}`,
+        URL,
         {
           method: 'GET',
           headers: {

@@ -1,16 +1,9 @@
-import { SafeTransaction, Signer } from '@/types'
+import { useStatistics } from '@/store'
 import * as d3 from 'd3'
 import { useState } from 'react'
-import { formatEther } from 'viem'
 
-interface SignerListType {
-  signers: Signer[]
-  transactions: SafeTransaction[]
-}
-
-export default function SignerList(props: SignerListType) {
-  const { signers, transactions } = props
-
+export default function SignerList() {
+  const { safeOwners, safeSignersTransactions } = useStatistics()
   const [selectedSigner, setSelectedSigner] = useState<number | undefined>(undefined)
 
   const selectSigner = (signer: number) => {
@@ -18,50 +11,56 @@ export default function SignerList(props: SignerListType) {
     setSelectedSigner(newSigner)
   }
 
-  const getColor = d3.scaleLinear(
+  const getColor = d3.scaleOrdinal(d3.schemeCategory10)
+  /*.scaleLinear(
     [0, signers.length - 1],
     ['#00b460', '#ff5f72']
-  )
+  )*/
 
   return (
     <ol>
-      {signers.map((signer, i) => (
+      {safeOwners && safeOwners.map((owner, i) => (
         <li className="signer" key={i} onClick={() => selectSigner(i)}>
-          <div className="main">
+          <div className={selectedSigner === i ? 'selected-main' : 'main'}>
             <div className="tag" style={{
-              backgroundColor: `${getColor(i)}`
-            }}>#{i + 1}</div>
-            <pre>{signer.address}</pre>
+              backgroundColor: `${getColor(i.toString())}`
+            }}>{i + 1}</div>
+            <pre>{owner}</pre>
           </div>
           {selectedSigner === i && (
             <div className="info">
+
               <div className="line">
                 <div>Executed transactions</div>
                 <div className="bar-box">
                   <div className="bar-value" style={{
-                    backgroundColor: getColor(i),
-                    width: `${transactions && signer.transactions.length * 130 / transactions.length}px`
+                    backgroundColor: getColor(i.toString()),
+                    //width: `${transactions && signer.transactions.length * 130 / safeTransactions.length}px`
                   }}></div>
                 </div>
-                <div>{signer.transactions.length}</div>
+                <div>{safeSignersTransactions ? safeSignersTransactions[i]?.transactions.length : '-'}</div>
               </div>
+
               <div className="line">
                 <div>Used gas</div>
                 <div className="bar-box">
                   <div className="bar-value" style={{
-                    backgroundColor: getColor(i)
+                    backgroundColor: getColor(i.toString())
                   }}></div>
                 </div>
-                <div>{signer.gasUsedTotal}</div>
+                <div>-</div>
               </div>
+
               <div className="line">
                 <div>Paid fees</div>
                 <div className="bar-box">
                   <div className="bar-value" style={{
-                    backgroundColor: getColor(i)
+                    backgroundColor: getColor(i.toString())
                   }}></div>
                 </div>
-                <div>{(+formatEther(signer.feesTotal)).toFixed(4)} ETH</div>
+                <div>-</div>
+                {/*<div>{(+formatEther(signer.feesTotal)).toFixed(4)} ETH</div>*/}
+                
               </div>
             </div>
           )}

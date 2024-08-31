@@ -1,34 +1,11 @@
 'use client'
 
 import SignerList from '@/components/SignersList'
-import { getSafeTransactions } from '@/logic/envio'
-import { getOwners } from '@/logic/safe'
-import { getSignersStats } from '@/logic/statistics'
-import { SafeTransaction, Signer } from '@/types'
-import { useEffect, useState } from 'react'
+import TxsFrequencyChart from '@/components/TxsFrequencyChart'
+import { useStatistics } from '@/store'
 
 export default function Home() {
-  const [safeAddress, setSafeAddress] = useState<string>('')
-  const [signers, setSigners] = useState<Signer[]>([])
-  const [safeTransactions, setSafeTransactions] = useState<SafeTransaction[]>([])
-
-  useEffect(() => {
-    const init = async() => {
-      setSigners([])
-      setSafeTransactions([])
-      if (safeAddress === '') {
-        return
-      }
-
-      const newTransactions = await getSafeTransactions(safeAddress, 1)
-      const owners = await getOwners(safeAddress, 1)
-      const newSigners: Signer[] = getSignersStats(newTransactions, owners)
-      
-      setSigners(newSigners)
-      setSafeTransactions(newTransactions!)
-    }
-    init()
-  }, [safeAddress])
+  const { safeAddress, setSafeAddress, safeOwners, safeTransactions } = useStatistics()
 
   const updateSafeAddres = (e: any) => {
     setSafeAddress(e.target.value)
@@ -38,9 +15,9 @@ export default function Home() {
     <main className={safeAddress === '' ? "main-empty" : "main-list"}>
       <h1 className={safeAddress === '' ? "h1-big" : "h1-small"}>
         <span style={{ color: '#333333' }}>K</span>NOW
-        <br/>
+        {safeAddress === '' ? <br/> : ' '}
         <span style={{ color: '#333333' }}>Y</span>OUR
-        <br/>
+        {safeAddress === '' ? <br/> : ' '}
         <span style={{ color: '#333333' }}>C</span>O-SIGNERS
       </h1>
       <input
@@ -50,11 +27,18 @@ export default function Home() {
         maxLength={42}
         autoFocus
       />
-      {signers.length > 0 && (
+      {safeOwners && (
         <>
-          <h2>Signers: {`${signers.length}`}</h2>
-          <h2>Transactions: {safeTransactions.length}</h2>
-          <SignerList signers={signers} transactions={safeTransactions} />
+          <div className="content">
+            <div className="signers-box">
+              <h2>Signers {safeOwners && `(${safeOwners.length})`}</h2>
+              <SignerList />
+            </div>
+            <div className="chart-box">
+              <h2>Transactions {safeTransactions && `(${safeTransactions.length})`}</h2>
+              <TxsFrequencyChart transactions={safeTransactions} />
+            </div>
+          </div>
         </>
       )}
     </main>

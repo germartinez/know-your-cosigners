@@ -1,10 +1,29 @@
-import { SafeTransaction } from "@/types"
+import { Transaction } from '@/types'
 
 export function isSameAddress(address1: string, address2: string) {
   return address1.toLowerCase() === address2.toLowerCase()
 }
 
-export function getSignersStats(safeTransactions: SafeTransaction[], owners: string[]) {
+
+
+/*
+const signersTransactions: Signer[] = []
+for (let i = 0; i < safeOwners.length; i++) {
+  const signerTransactions: Signer = {
+    address: safeOwners[i],
+    transactions: await getEnvioTransactions({
+      signerAddress: safeOwners[i],
+      chainId: 1
+    })
+  }
+  signersTransactions.push(signerTransactions)
+}
+return signersTransactions
+*/
+
+
+
+export function getSignersStats(safeTransactions: Transaction[], owners: string[]) {
   const signers = owners.map(signerAddress => {
     let transactions = []
     let gasUsedTotal = 0n
