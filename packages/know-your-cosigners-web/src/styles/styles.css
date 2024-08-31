@@ -1,8 +1,9 @@
 :root {
-  background-color: #f4f4f4;
+  background: #f4f4f4;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   color: #121312;
+  box-sizing: border-box;
 }
 
 * {
@@ -11,17 +12,22 @@
   padding: 0;
 }
 
+svg {
+  --border: 1px solid red;
+  display: block;
+}
+
 h1 {
   color: goldenrod;
 }
 
 .h1-big {
-  font-size: 32px;
+  font-size: 48px;
   margin: 32px auto;
 }
 
 .h1-small {
-  font-size: 14px;
+  font-size: 20px;
   margin: 16px auto;
 }
 
@@ -31,9 +37,8 @@ h2 {
 }
 
 .main-list {
-  margin: 0 auto;
-  padding: 20px;
-  width: 600px;
+  --border: 1px solid red;
+  padding: 20px 30px;
 }
 
 .main-empty {
@@ -48,26 +53,30 @@ input[type='text'] {
   border: 2px solid goldenrod;
   border-radius: 16px;
   font-family: monospace;
-  padding: 24px 32px;
+  padding: 28px 32px;
   text-align: center;
-  width: 100%;
+  width: 550px;
 }
 
 .signer {
   background-color: #ffffff;
-  border: none;
   border-radius: 16px;
   cursor: pointer;
   overflow: hidden;
   margin-bottom: 16px;
-}
-.selected-signer {
-  border: 1px solid goldenrod;
+  width: 550px;
 }
 
 .main {
-  background-color: #ffffff;
-  border-radius: 8px 8px 0 0;
+  border-radius: 16px;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-main {
+  border-radius: 16px 16px 0 0;
   padding: 24px 32px;
   display: flex;
   justify-content: space-between;
@@ -79,7 +88,7 @@ input[type='text'] {
   color: #ffffff;
   padding: 10px;
   text-align: center;
-  width: 140px;
+  width: 36px;
 }
 
 .info {
@@ -97,12 +106,49 @@ input[type='text'] {
 
 .bar-box {
   background-color: #f4f4f4;
-  border-radius: 2px;
+  border-radius: 4px;
   margin: 8px 0;
   overflow: hidden;
   width: 130px;
 }
 
 .bar-value {
+  width: 70%;
   height: 8px;
+}
+
+.content {
+  -border: 1px solid blue;
+  display: flex;
+  gap: 16px;
+}
+
+.signers-box {
+  -border: 1px solid red;
+}
+
+.chart-box {
+  -border: 1px solid black;
+  flex: auto;
+}
+
+.histogram {
+  background: #ffffff;
+  border-radius: 16px;
+  min-width: 300px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+  input[type='text'] {
+    width: 100%;
+  }
+
+  .signer {
+    width: 100%;
+  }
+
+  .content {
+    display: block;
+  }
 }
