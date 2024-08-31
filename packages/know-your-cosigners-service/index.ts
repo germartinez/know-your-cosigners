@@ -1,7 +1,7 @@
 import cors from 'cors'
 import * as dotenv from 'dotenv'
 import express from 'express'
-import { getSafeTransactions } from './routes/getSafeTransactions'
+import { getTransactions } from './routes/getSafeTransactions'
 
 const PORT = process.env.PORT || 4000
 
@@ -15,7 +15,7 @@ app.use(express.json())
 const router = express.Router()
 app.use('/api/v1', router)
 
-router.get('/transactions', getSafeTransactions)
+router.get('/transactions', getTransactions)
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
