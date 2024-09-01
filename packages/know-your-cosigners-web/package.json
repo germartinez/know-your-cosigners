@@ -6,7 +6,8 @@
     "build": "next build",
     "unbuild": "rimraf .next out",
     "dev": "next dev",
-    "prod:deploy": "pm2 start 'pnpm dev' --name 'know-your-cosigners-web'",
+    "start": "next start",
+    "prod:deploy": "pm2 start 'pnpm start' --name 'know-your-cosigners-web'",
     "prod:undeploy": "pm2 stop 'know-your-cosigners-web'"
   },
   "author": "Germán Martínez",
