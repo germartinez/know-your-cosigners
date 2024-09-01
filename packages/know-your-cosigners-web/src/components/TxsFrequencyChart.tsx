@@ -31,8 +31,8 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
   const [width, setWidth] = useState(initialWidth)
   const prevWidth = usePrevious(initialWidth)
 
-  const refSvg = useRef()
-  const refHistogram = useRef()
+  const refSvg = useRef<any>()
+  const refHistogram = useRef<any>()
   
   const handleWindowResize = () => {
     const newWidth =

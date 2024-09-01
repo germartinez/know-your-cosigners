@@ -17,6 +17,7 @@ coverage
 # Compiled binary addons
 build/
 dist/
+out/
 
 # Dependency directories
 node_modules/

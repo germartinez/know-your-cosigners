@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "unbuild": "rimraf .next",
+    "unbuild": "rimraf .next out",
     "start": "next start"
   },
   "author": "Germán Martínez",
