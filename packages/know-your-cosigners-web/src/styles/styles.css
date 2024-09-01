@@ -12,6 +12,11 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: #121312;
+}
+
 svg {
   --border: 1px solid red;
   display: block;
@@ -61,7 +66,7 @@ input[type='text'] {
 .signer {
   background-color: #ffffff;
   border-radius: 16px;
-  cursor: pointer;
+  --cursor: pointer;
   overflow: hidden;
   margin-bottom: 16px;
   width: 550px;

@@ -23,30 +23,43 @@ return signersTransactions
 
 
 
-export function getSignersStats(safeTransactions: Transaction[], owners: string[]) {
-  const signers = owners.map(signerAddress => {
-    let transactions = []
-    let gasUsedTotal = 0n
-    let feesTotal = 0n
+export function getSignersStatistics(
+  safeAddress: string,
+  signerAddress: string,
+  signerTransactions: Transaction[]
+) {
+  let totalGasUsed = 0n
+  let totalSafeGasUsed = 0n
+  let totalTxFees = 0n
+  let totalSafeTxFees = 0n
+  let totalSafeTxExecuted = 0
+  let totalTxExecuted = 0
 
-    for(let i = 0; i < safeTransactions.length; i++) {
-      const tx = safeTransactions[i]
-      if (!isSameAddress(signerAddress, tx.from)) {
-        continue
-      }
-      transactions.push(tx)
-      gasUsedTotal += BigInt(tx.gasUsed)
-      feesTotal += BigInt(tx.gasUsed) * BigInt(tx.gasPrice)
+  for(let i = 0; i < signerTransactions.length; i++) {
+    const tx = signerTransactions[i]
+    if (!isSameAddress(signerAddress, tx.from)) {
+      continue
     }
+    
+    const isSafeTx = isSameAddress(tx.to, safeAddress)
+      && isSameAddress(tx.from, signerAddress)
+      && tx.input.startsWith('0x6a761202')
+    
+    totalGasUsed += BigInt(tx.gasUsed)
+    totalSafeGasUsed += isSafeTx ? BigInt(tx.gasUsed) : BigInt(0)
+    totalTxFees += BigInt(tx.gasUsed) * BigInt(tx.gasPrice)
+    totalSafeTxFees += isSafeTx ? BigInt(tx.gasUsed) * BigInt(tx.gasPrice) : BigInt(0)
+    totalTxExecuted += 1
+    totalSafeTxExecuted += isSafeTx ? 1 : 0
+  }
 
-    const signer = {
-      address: signerAddress,
-      transactions,
-      gasUsedTotal: gasUsedTotal,
-      feesTotal: feesTotal
-    }
-    return signer
-  }).sort((a, b) => a.transactions.length > b.transactions.length ? -1 : 1)
-
-  return signers
+  const signerStatistics = {
+    totalGasUsed,
+    totalSafeGasUsed,
+    totalTxFees,
+    totalSafeTxFees,
+    totalTxExecuted,
+    totalSafeTxExecuted
+  }
+  return signerStatistics
 }

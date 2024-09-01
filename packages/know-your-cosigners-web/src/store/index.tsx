@@ -2,6 +2,7 @@
 
 import { getEnvioTransactions } from '@/logic/envio'
 import { getOwners } from '@/logic/safe'
+import { getSignersStatistics } from '@/logic/statistics'
 import { Signer, Transaction } from '@/types'
 import { createContext, useContext, useEffect, useState } from 'react'
 
@@ -10,7 +11,7 @@ type statisticsContextValue = {
   setSafeAddress: (safeAddress: string) => void
   safeOwners?: string[]
   safeTransactions?: Transaction[]
-  safeSignersTransactions?: Signer[]
+  signersData?: Signer[]
 }
 
 const initialState = {
@@ -33,7 +34,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
   const [safeAddress, setAddress] = useState<string>('')
   const [safeOwners, setOwners] = useState<string[] | undefined>(undefined)
   const [safeTransactions, setTransactions] = useState<Transaction[] | undefined>(undefined)
-  const [safeSignersTransactions, setSignersTransactions] = useState<Signer[] | undefined>(undefined)
+  const [signersData, setSignersData] = useState<Signer[] | undefined>(undefined)
 
   // Set Safe address
   const setSafeAddress = (safeAddress: string) => {
@@ -44,7 +45,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     setOwners(undefined)
     setTransactions(undefined)
-    setSignersTransactions(undefined)
+    setSignersData(undefined)
   }, [safeAddress])
 
   // Get Safe signers
@@ -76,49 +77,46 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
 
   // Get Safe signers transactions
   useEffect(() => {
-    const setupSignersTransactions = async () => {
-      let transactions: Signer[] | undefined = undefined
+    const setupSignersData = async () => {
+      let statistics: Signer[] | undefined = undefined
       if (safeOwners) {
         if (safeOwners.length > 0) {
-
-
-
-
-
           // Optimize with Promise.all
-          const signersTransactions: Signer[] = []
+          const signers: Signer[] = []
           for (let i = 0; i < safeOwners.length; i++) {
-            const signerTransactions: Signer = {
+            const transactions = await getEnvioTransactions({
+              signerAddress: safeOwners[i],
+              chainId: 1
+            })
+            const signer: Signer = {
               address: safeOwners[i],
-              transactions: await getEnvioTransactions({
-                signerAddress: safeOwners[i],
-                chainId: 1
-              })
+              transactions,
+              ...getSignersStatistics(safeAddress, safeOwners[i], transactions)
             }
-            signersTransactions.push(signerTransactions)
+            signers.push(signer)
           }
-          transactions = signersTransactions
-
-
-
-
-          
+          statistics = signers.sort((a, b) => a.totalSafeTxExecuted > b.totalSafeTxExecuted ? -1 : 1)
         } else {
-          transactions = []
+          statistics = []
         }
       }
-      setSignersTransactions(transactions)
-      console.log('setupSignersTransactions', transactions)
+      setSignersData(statistics)
+      console.log('setSignersData', statistics)
     }
-    setupSignersTransactions()
+    setupSignersData()
   }, [safeOwners])
+
+  // Order owners
+  // useEffect(() => {
+  // 
+  // }, signersData)
 
   const state = {
     safeAddress,
     setSafeAddress,
     safeOwners,
     safeTransactions,
-    safeSignersTransactions
+    signersData
   }
 
   return (
