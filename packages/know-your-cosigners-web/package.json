@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "description": "Know Your Co-signers: Web Application",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
     "unbuild": "rimraf .next out",
-    "start": "next start"
+    "dev": "next dev",
+    "prod:deploy": "pm2 start 'pnpm dev' --name 'know-your-cosigners-web'",
+    "prod:undeploy": "pm2 stop 'know-your-cosigners-web'"
   },
   "author": "Germán Martínez",
   "dependencies": {

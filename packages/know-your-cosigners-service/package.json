@@ -4,9 +4,11 @@
   "description": "Know Your Co-signers: Backend Service",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon",
     "build": "tsc",
-    "unbuild": "rimraf dist"
+    "unbuild": "rimraf dist",
+    "dev": "nodemon",
+    "prod:deploy": "pm2 start dist/index.js --name 'know-your-cosigners-service'",
+    "prod:undeploy": "pm2 stop 'know-your-cosigners-service'"
   },
   "author": "Germán Martínez",
   "dependencies": {
