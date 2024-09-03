@@ -35,7 +35,7 @@ export default function Home() {
               <SignerList />
             </div>
             <div className="chart-box">
-              <h2>Transactions {safeTransactions && `(${safeTransactions.length})`}</h2>
+              <h2>Safe transactions {safeTransactions && `(${safeTransactions.length})`}</h2>
               <TxsFrequencyChart transactions={safeTransactions} />
             </div>
           </div>

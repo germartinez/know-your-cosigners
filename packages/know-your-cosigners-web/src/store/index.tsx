@@ -54,7 +54,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
       const owners = (safeAddress !== '')
         ? await getOwners(safeAddress, 1)
         : undefined
-        setOwners(owners)
+        setOwners(owners ? [...owners] : undefined)
       console.log('setupSigners', owners)
     }
     setupSigners()
@@ -69,7 +69,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
             chainId: 1
           })
         : undefined
-      setTransactions(transactions)
+      setTransactions(transactions ? [...transactions] : undefined)
       console.log('setupTransactions', transactions)
     }
     setupTransactions()
@@ -80,36 +80,36 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
     const setupSignersData = async () => {
       let statistics: Signer[] | undefined = undefined
       if (safeOwners) {
+        let signers: Signer[] = []
         if (safeOwners.length > 0) {
           // Optimize with Promise.all
-          const signers: Signer[] = []
-          for (let i = 0; i < safeOwners.length; i++) {
+
+          signers = await Promise.all(safeOwners.map(async (owner) => {
             const transactions = await getEnvioTransactions({
-              signerAddress: safeOwners[i],
+              signerAddress: owner,
               chainId: 1
             })
             const signer: Signer = {
-              address: safeOwners[i],
+              address: owner,
               transactions,
-              ...getSignersStatistics(safeAddress, safeOwners[i], transactions)
+              ...getSignersStatistics(safeAddress, owner, transactions)
             }
-            signers.push(signer)
-          }
-          statistics = signers.sort((a, b) => a.totalSafeTxExecuted > b.totalSafeTxExecuted ? -1 : 1)
+            return signer
+          }))
+
+          statistics = signers.sort(
+            (a, b) => a.totalSafeTxExecuted > b.totalSafeTxExecuted ? -1 : 1
+          )
         } else {
           statistics = []
         }
       }
-      setSignersData(statistics)
+
+      setSignersData(statistics ? [...statistics] : undefined)
       console.log('setSignersData', statistics)
     }
     setupSignersData()
   }, [safeOwners])
-
-  // Order owners
-  // useEffect(() => {
-  // 
-  // }, signersData)
 
   const state = {
     safeAddress,

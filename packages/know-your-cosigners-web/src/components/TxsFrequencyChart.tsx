@@ -91,14 +91,12 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
     // const countXAxisPositions = Math.ceil(diffDates / (1000 * 3600 * 24 * 30 * 12)) // Years
     const countXAxisPositions = Math.ceil(diffDates / (1000 * 3600 * 24 * 30)) // Months
     // const countXAxisPositions = Math.ceil(diffDates / (1000 * 3600 * 24)) // Days
-    console.log(width, countXAxisPositions)
     const barPadding = 5
     const barWidth = width / countXAxisPositions - barPadding
     
     const xScale = d3.scaleTime()
       .domain([minDate, maxDate])
       .range([barWidth / 2, width])
-      //.padding(0.5)
       .nice()
     
     const yScale = d3.scaleLinear()
@@ -115,8 +113,6 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
         .attr('y', (d) => yScale(Number(d.frequency)))
         .attr('width', barWidth /*xScale.bandwidth()*/)
         .attr('height', (d) => height - yScale(Number(d.frequency)))
-        //.attr('rx', '4')
-        //.attr('ry', '4')
         .attr('transform', 'translate(75, 50)')
         .attr('fill', 'green')
 
