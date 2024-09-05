@@ -4,25 +4,6 @@ export function isSameAddress(address1: string, address2: string) {
   return address1.toLowerCase() === address2.toLowerCase()
 }
 
-
-
-/*
-const signersTransactions: Signer[] = []
-for (let i = 0; i < safeOwners.length; i++) {
-  const signerTransactions: Signer = {
-    address: safeOwners[i],
-    transactions: await getEnvioTransactions({
-      signerAddress: safeOwners[i],
-      chainId: 1
-    })
-  }
-  signersTransactions.push(signerTransactions)
-}
-return signersTransactions
-*/
-
-
-
 export function getSignersStatistics(
   safeAddress: string,
   signerAddress: string,
@@ -41,7 +22,7 @@ export function getSignersStatistics(
       continue
     }
     
-    const isSafeTx = isSameAddress(tx.to, safeAddress)
+    const isSafeTx = tx.to && isSameAddress(tx.to, safeAddress)
       && isSameAddress(tx.from, signerAddress)
       && tx.input.startsWith('0x6a761202')
     

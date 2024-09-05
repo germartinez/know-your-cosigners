@@ -6,6 +6,7 @@ type EnvioTransactionProps = {
   safeAddress?: string
   signerAddress?: string
   chainId: number
+  setTransactions?: () => {}
 }
 
 export async function getEnvioTransactions({
