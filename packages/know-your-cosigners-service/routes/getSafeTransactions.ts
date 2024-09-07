@@ -1,4 +1,10 @@
-import { BlockField, HypersyncClient, Query, TransactionField, TransactionSelection } from '@envio-dev/hypersync-client'
+import {
+  BlockField,
+  HypersyncClient,
+  Query,
+  TransactionField,
+  TransactionSelection
+} from '@envio-dev/hypersync-client'
 import { Request, Response } from 'express'
 
 export async function getTransactions(req: Request, res: Response) {
@@ -9,33 +15,34 @@ export async function getTransactions(req: Request, res: Response) {
       res.status(400).send('400 Bad Request')
       return
     }
-    
+
     let transactionQuery: TransactionSelection[] | undefined = undefined
     if (safe) {
-      transactionQuery = [{
-        to: [safe as string], // Safe address
-        sighash: ['0x6a761202'] // execTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes)
-      }]
+      transactionQuery = [
+        {
+          to: [safe as string], // Safe address
+          sighash: ['0x6a761202'] // execTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes)
+        }
+      ]
     }
 
     if (signer) {
-      transactionQuery = [{
-        from: [signer as string], // Signer address
-      }]
+      transactionQuery = [
+        {
+          from: [signer as string] // Signer address
+        }
+      ]
     }
 
     const client = HypersyncClient.new({
       url: `https://${chainId}.hypersync.xyz`
     })
-    
+
     const query: Query = {
       fromBlock: Number(nextBlock),
       transactions: transactionQuery,
       fieldSelection: {
-        block: [
-          BlockField.Number,
-          BlockField.Timestamp
-        ],
+        block: [BlockField.Number, BlockField.Timestamp],
         transaction: [
           TransactionField.BlockNumber,
           TransactionField.Hash,
@@ -48,9 +55,9 @@ export async function getTransactions(req: Request, res: Response) {
         ]
       }
     }
-    
+
     const result = await client.get(query)
-    
+
     const blocks = result.data.blocks
     const txs = result.data.transactions
 
@@ -59,15 +66,16 @@ export async function getTransactions(req: Request, res: Response) {
       value: tx.value?.toString(),
       gasUsed: tx.gasUsed?.toString(),
       gasPrice: tx.gasPrice?.toString(),
-      timestamp: blocks.find(b => tx.blockNumber === b.number)?.timestamp
+      timestamp: blocks.find((b) => tx.blockNumber === b.number)?.timestamp
     }))
 
-    const nextBlockNumber = result.nextBlock > result.archiveHeight!
-      ? undefined
-      : result.nextBlock
+    const nextBlockNumber =
+      result.nextBlock > result.archiveHeight! ? undefined : result.nextBlock
 
-    console.log(`signer: ${signer}, safe: ${safe}, fromBlock: ${query.fromBlock}, transactions: ${transactions.length}`)
-    
+    console.log(
+      `signer: ${signer}, safe: ${safe}, fromBlock: ${query.fromBlock}, transactions: ${transactions.length}`
+    )
+
     res.status(200).send({
       transactions,
       nextBlock: nextBlockNumber

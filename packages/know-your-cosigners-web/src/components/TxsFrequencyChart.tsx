@@ -78,7 +78,6 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
           : (timePeriod === 'yearly')
             ? date.getFullYear()
             : date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2)
-      // + ('0' + date.getHours()).slice(-2) + ':00:00' // Hourly
       tally[dateString] = (tally[dateString] || 0) + 1
     })
 
@@ -121,7 +120,6 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
     const xScale = d3.scaleTime()
       .domain([minDate, maxDate])
       .range([(barWidth / 2), width - (barWidth / 2)])
-      //.range([0, width])
       .nice()
     
     const yScale = d3.scaleLinear()

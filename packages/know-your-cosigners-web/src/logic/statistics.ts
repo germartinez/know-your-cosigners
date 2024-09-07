@@ -17,30 +17,33 @@ export function getSignersStatistics(
   let totalSafeTxExecuted = 0
   let totalTxExecuted = 0
 
-  for(let i = 0; i < signerTransactions.length; i++) {
+  for (let i = 0; i < signerTransactions.length; i++) {
     const tx = signerTransactions[i]
     if (!isSameAddress(signerAddress, tx.from)) {
       continue
     }
-    
-    const isSafeTx = tx.to && isSameAddress(tx.to, safeAddress)
-      && isSameAddress(tx.from, signerAddress)
-      && tx.input.startsWith('0x6a761202')
-    
+
+    const isSafeTx =
+      tx.to &&
+      isSameAddress(tx.to, safeAddress) &&
+      isSameAddress(tx.from, signerAddress) &&
+      tx.input.startsWith('0x6a761202')
+
     totalGasUsed += BigInt(tx.gasUsed)
     totalSafeGasUsed += isSafeTx ? BigInt(tx.gasUsed) : BigInt(0)
     totalTxFees += BigInt(tx.gasUsed) * BigInt(tx.gasPrice)
-    totalSafeTxFees += isSafeTx ? BigInt(tx.gasUsed) * BigInt(tx.gasPrice) : BigInt(0)
+    totalSafeTxFees += isSafeTx
+      ? BigInt(tx.gasUsed) * BigInt(tx.gasPrice)
+      : BigInt(0)
     totalTxExecuted += 1
     totalSafeTxExecuted += isSafeTx ? 1 : 0
   }
 
   const totalSafeTxSigned = safeTxServiceTransactions.filter(
-    tx => (
+    (tx) =>
       tx.isExecuted &&
       tx.isSuccessful &&
-      tx.confirmations.some(o => isSameAddress(o.owner, signerAddress))
-    )
+      tx.confirmations.some((o) => isSameAddress(o.owner, signerAddress))
   ).length
   console.log(signerAddress, totalSafeTxSigned)
 

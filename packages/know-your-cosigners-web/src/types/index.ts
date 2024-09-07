@@ -1,4 +1,3 @@
-
 export type Transaction = {
   blockNumber: number
   hash: string
@@ -34,10 +33,12 @@ export type SafeTransaction = {
   isExecuted: boolean
   isSuccessful?: boolean
   confirmationsRequired: number
-  confirmations: [{
-    owner: string
-    submissionDate: string
-    signature: string
-  }]
+  confirmations: [
+    {
+      owner: string
+      submissionDate: string
+      signature: string
+    }
+  ]
   signatures?: string
 }
