@@ -128,17 +128,17 @@ export default function SignerList() {
                     {(signer.totalSafeTxSigned > 0 && signersData.filter(s => signer.totalSafeTxSigned >= s.totalSafeTxSigned).length === signersData.length)
                       ? <div className="tag">Most popular signer</div>
                       : (signer.totalSafeTxSigned > 0)
-                        ? <div className="tag">Ocasional signer</div>
+                        ? <div className="tag">Occasional signer</div>
                         : (signer.totalSafeTxSigned === 0) && <div className="tag">No signing activity</div>
                     }
                     {(signer.totalSafeTxExecuted > 0 && signersData.filter(s => signer.totalSafeTxExecuted >= s.totalSafeTxExecuted).length === signersData.length)
                       ? <div className="tag">Most popular executor</div>
                       : (signer.totalSafeTxExecuted > 0)
-                        ? <div className="tag">Ocasional executor</div>
+                        ? <div className="tag">Occasional executor</div>
                         : (signer.totalSafeTxExecuted === 0) && <div className="tag">No execution activity</div>
                     }
                     {signer.totalSafeTxFees > 0 && signersData.filter(s => signer.totalSafeTxFees >= s.totalSafeTxFees).length === signersData.length && <div className="tag">Best sponsor</div>}
-                    {signer.totalTxExecuted > 0 && signer.totalTxExecuted === signer.totalSafeTxExecuted && <div className="tag">100% commited</div>}
+                    {signer.totalTxExecuted > 0 && signer.totalTxExecuted === signer.totalSafeTxExecuted && <div className="tag">100% committed</div>}
                   </>
                 )}
               </div>
