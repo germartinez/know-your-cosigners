@@ -6,7 +6,7 @@ import { formatEther } from 'viem'
 import TxsFrequencyChart from './TxsFrequencyChart'
 
 export default function SignerList() {
-  const { safeOwners, signersData } = useStatistics()
+  const { safeAddress, safeOwners, signersData } = useStatistics()
 
   const getColor = d3.scaleOrdinal(d3.schemeCategory10)
 
@@ -26,14 +26,14 @@ export default function SignerList() {
           <div className="signer-block" key={i}>
             <li className="signer">
               <div className="main">
-                <div className="tag" style={{
+                <div className="dot" style={{
                   backgroundColor: `${getColor(i.toString())}`
                 }} />
                 <pre>
                   <a
                     href={`https://etherscan.io/address/${owner}`}
                     target="_blank"
-                  >Signer {i + 1}: {owner}</a>
+                  >{owner}</a>
                 </pre>
               </div>
               {(
@@ -98,9 +98,25 @@ export default function SignerList() {
                   </div>
                 </div>
               )}
+              <div className="tags">
+                {signersData && signer && (
+                  <>
+                    {signer.totalSafeTxExecuted > 0 && signersData.filter(s => signer.totalSafeTxExecuted >= s.totalSafeTxExecuted).length === signersData.length && <div className="tag">Most active</div>}
+                    {signer.totalSafeTxExecuted > 0 && signersData.filter(s => signer.totalSafeTxExecuted <= s.totalSafeTxExecuted).length === signersData.length && <div className="tag">Less active</div>}
+                    {signer.totalSafeTxFees > 0 && signersData.filter(s => signer.totalSafeTxFees >= s.totalSafeTxFees).length === signersData.length && <div className="tag">Biggest sponsor</div>}
+                  </>
+                )}
+                {signer && (
+                  <>
+                    {signer.totalTxExecuted === 0 && <div className="tag">No activity</div>}
+                    {signer.totalSafeTxExecuted === 0 && <div className="tag">No Safe activity</div>}
+                    {signer.totalTxExecuted > 0 && signer.totalTxExecuted === signer.totalSafeTxExecuted && <div className="tag">100% commited</div>}
+                  </>
+                )}
+              </div>
             </li>
             <TxsFrequencyChart
-              transactions={signer?.transactions}
+              transactions={signer?.transactions.filter(tx => tx.to && isSameAddress(tx.to, safeAddress!))}
               color={getColor(i.toString())}
               height={300}
             />

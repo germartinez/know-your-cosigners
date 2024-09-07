@@ -4,6 +4,8 @@
   font-size: 13px;
   color: #121312;
   box-sizing: border-box;
+  max-width: 1300px;
+  margin: 0 auto 50px;
 }
 
 * {
@@ -24,7 +26,7 @@ li {
 .button-box {
   --border: 1px solid red;
   padding-top: 0;
-  padding-left: 65px;
+  padding-left: 32px;
   padding-bottom: 32px;
   display: flex;
   gap: 8px;
@@ -101,9 +103,10 @@ input[type='text'] {
   padding: 24px 32px;
   display: flex;
   align-items: center;
+  min-width: 510px;
 }
 
-.tag {
+.dot {
   border-radius: 24px;
   color: #ffffff;
   padding: 10px;
@@ -136,6 +139,21 @@ input[type='text'] {
   height: 8px;
 }
 
+.tags {
+  padding: 32px;
+  padding-top: 8px;
+}
+
+.tag {
+  border: 1px solid green;
+  border-radius: 16px;
+  color: green;
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 16px;
+  margin-top: 8px;
+}
+
 .signers-box {
   --border: 1px solid red;
   display: flex;
@@ -154,23 +172,62 @@ input[type='text'] {
   width: 100%;
 }
 
-@media only screen and (max-width: 1000px) {
-  input[type='text'] {
-    width: 100%;
-  }
-
-  .signer {
-    width: 100%;
-  }
-
-  .content {
-    display: block;
-  }
-}
-
 .empty-chart {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 300px;
+}
+
+@media only screen and (max-width: 1000px) {
+  input[type='text'] {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .h1-big {
+    font-size: 32px;
+  }
+
+  h2 {
+    max-width: 720px;
+    margin: 32px auto;
+  }
+
+  .main-list {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .main-empty {
+    transform: none;
+    padding: 32px;
+    margin: 100px auto;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .signers-box {
+    display: block;
+  }
+
+  .signer {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .signer-block {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .content {
+    display: block;
+  }
+
+  .histogram {
+    max-width: 720px;
+    margin: 0 auto;
+  }
 }

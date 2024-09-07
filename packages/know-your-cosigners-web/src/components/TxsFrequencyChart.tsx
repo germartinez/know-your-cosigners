@@ -87,9 +87,7 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
       if (tally.hasOwnProperty(date)) {
         data.push({
           date,
-          value: tally[date],
-          value2: 30,
-          value3: 90
+          value: tally[date]
         })
       }
     }
@@ -114,7 +112,7 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
     if (countXAxisPositions < 2) {
       countXAxisPositions = 2
     }
-
+    
     const barPadding = 3
     let barWidth = width / (countXAxisPositions - 1) - barPadding
     barWidth = (barWidth < 5) ? 2 : barWidth - barPadding
@@ -152,22 +150,8 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
             ? '%b %Y'
             : '%Y'
         ) as any)
-      //.tickValues(xScale.ticks(10))
+      .tickValues(xScale.ticks(10))
       //.tickValues(data.map((d) => new Date(d.date)))
-
-    if (timePeriod === 'daily') {
-      if (countXAxisPositions > 100) {
-        xAxis.ticks(d3.timeMonth)
-      } else if (countXAxisPositions > 100) {
-        xAxis.ticks(d3.timeWeek)
-      } else {
-        xAxis.ticks(d3.timeWeek)
-      }
-    } else if (timePeriod === 'monthly') {
-      xAxis.ticks(d3.timeMonth)
-    } else if (timePeriod === 'yearly') {
-      xAxis.ticks(d3.timeYear)
-    }
     
     svg.append('g')
       .attr('class', `x-axis ${classId}`)
@@ -177,7 +161,7 @@ export default function TxsFrequencyChart(props: TxFreqChartProps) {
       .attr('transform', 'rotate(-90) translate(-40, -12)')
 
     // Create y-axis
-    const yAxis = d3.axisLeft(yScale)
+    const yAxis = d3.axisLeft(yScale).tickValues(yScale.ticks(5))
     svg.append('g')
       .attr('class', `y-axis ${classId}`)
       .attr('transform', 'translate(75, 45)')
