@@ -8,7 +8,8 @@
     "unbuild": "rimraf dist",
     "dev": "nodemon",
     "prod:deploy": "pm2 start dist/index.js --name 'know-your-cosigners-service'",
-    "prod:undeploy": "pm2 stop 'know-your-cosigners-service'"
+    "prod:undeploy": "pm2 stop 'know-your-cosigners-service'",
+    "format": "prettier ./index.ts ./routes/**/*.ts --write"
   },
   "author": "Germán Martínez",
   "dependencies": {

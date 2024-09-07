@@ -7,7 +7,8 @@
     "unbuild": "lerna run unbuild",
     "dev": "lerna run dev",
     "prod:deploy": "lerna run prod:deploy",
-    "prod:undeploy": "lerna run prod:undeploy"
+    "prod:undeploy": "lerna run prod:undeploy",
+    "format": "lerna run format"
   },
   "workspaces": {
     "packages": [
@@ -17,8 +18,10 @@
   "author": "Germán Martínez",
   "devDependencies": {
     "@types/node": "^22.5.0",
+    "@types/prettier": "^3.0.0",
     "lerna": "^8.1.8",
     "pm2": "^5.4.2",
+    "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
