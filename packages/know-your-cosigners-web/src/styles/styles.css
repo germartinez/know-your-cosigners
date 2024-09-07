@@ -17,6 +17,27 @@ a {
   color: #121312;
 }
 
+li {
+  list-style: none;
+}
+
+.button-box {
+  --border: 1px solid red;
+  padding-top: 0;
+  padding-left: 65px;
+  padding-bottom: 32px;
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  width: 80px;
+  cursor: pointer;
+}
+
 svg {
   --border: 1px solid red;
   display: block;
@@ -63,37 +84,31 @@ input[type='text'] {
   width: 550px;
 }
 
+.signer-block {
+  --border: 1px solid red;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
 .signer {
   background-color: #ffffff;
   border-radius: 16px;
-  --cursor: pointer;
-  overflow: hidden;
-  margin-bottom: 16px;
-  width: 550px;
 }
 
 .main {
   border-radius: 16px;
   padding: 24px 32px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.selected-main {
-  border-radius: 16px 16px 0 0;
-  padding: 24px 32px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
 .tag {
-  border-radius: 12px;
+  border-radius: 24px;
   color: #ffffff;
   padding: 10px;
   text-align: center;
-  width: 36px;
+  margin-right: 18px;
 }
 
 .info {
@@ -105,30 +120,26 @@ input[type='text'] {
 
 .line {
   --padding: 20px;
-  --background-color: #f4f4f4;
   border-radius: 8px;
 }
 
 .bar-box {
-  background-color: #f4f4f4;
+  background-color: #e8e8e8;
   border-radius: 4px;
   margin: 8px 0;
-  overflow: hidden;
+  --overflow: hidden;
   width: 130px;
 }
 
 .bar-value {
+  border-radius: 4px 0 0 4px;
   height: 8px;
 }
 
-.content {
-  -border: 1px solid blue;
-  display: flex;
-  gap: 16px;
-}
-
 .signers-box {
-  -border: 1px solid red;
+  --border: 1px solid red;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-box {
@@ -161,5 +172,5 @@ input[type='text'] {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 500px;
+  height: 300px;
 }

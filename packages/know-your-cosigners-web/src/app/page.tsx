@@ -24,19 +24,18 @@ export default function Home() {
         type="text"
         value={safeAddress}
         onChange={updateSafeAddres}
-        maxLength={42}
         autoFocus
       />
       {safeOwners && (
         <>
           <div className="content">
+            <div className="chart-box">
+              <h2>Safe transactions {safeTransactions && `(${safeTransactions.length})`}</h2>
+              <TxsFrequencyChart transactions={safeTransactions} color="black" height={300} />
+            </div>
             <div className="signers-box">
               <h2>Signers {safeOwners && `(${safeOwners.length})`}</h2>
               <SignerList />
-            </div>
-            <div className="chart-box">
-              <h2>Safe transactions {safeTransactions && `(${safeTransactions.length})`}</h2>
-              <TxsFrequencyChart transactions={safeTransactions} />
             </div>
           </div>
         </>
