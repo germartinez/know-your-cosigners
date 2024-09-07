@@ -20,13 +20,14 @@ export default function Home() {
         {safeAddress === '' ? <br/> : ' '}
         <span style={{ color: '#333333' }}>C</span>O-SIGNERS
       </h1>
+      <p className="instructions">Type a Safe address from Ethereum Mainnet:</p>
       <input
         type="text"
         value={safeAddress}
         onChange={updateSafeAddres}
         autoFocus
       />
-      {safeOwners && (
+      {safeOwners && safeAddress?.length === 42 && (
         <>
           <div className="content">
             <div className="chart-box">

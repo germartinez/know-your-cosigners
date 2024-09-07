@@ -77,10 +77,16 @@ h2 {
   width: 600px;
 }
 
+.instructions {
+  padding: 12px 0;
+  color: #888888;
+}
+
 input[type='text'] {
   border: 2px solid goldenrod;
   border-radius: 16px;
   font-family: monospace;
+  margin-bottom: 16px;
   padding: 28px 32px;
   text-align: center;
   width: 500px;
@@ -91,6 +97,7 @@ input[type='text'] {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
+  overflow: hidden;
 }
 
 .signer {
