@@ -13,6 +13,7 @@ type statisticsContextValue = {
   safeOwners?: string[]
   safeTransactions?: Transaction[]
   signersData?: Signer[]
+  safeTxServiceTransactions?: SafeTransaction[]
 }
 
 const initialState = {
@@ -77,7 +78,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
         chainId: 1
       })
       setTransactions([...transactions])
-      console.log('setupEnvioTransactions', transactions.map(t => t.hash))
+      console.log('setupEnvioTransactions', transactions)
     }
     setupTransactions()
   }, [safeAddress])
@@ -94,7 +95,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
         chainName: 'mainnet'
       })).filter(tx => tx.transactionHash !== null)
       setTxServiceTransactions([...transactions])
-      console.log('setupSafeTransactions', transactions.map(t => t.transactionHash))
+      console.log('setupSafeTransactions', transactions)
     }
     setupTransactions()
   }, [safeAddress])
@@ -102,7 +103,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
   // Get Safe signers transactions
   useEffect(() => {
     const setupSignersData = async () => {
-      if (!safeOwners) {
+      if (!safeOwners || !safeTxServiceTransactions) {
         setSignersData(undefined)
         return
       }
@@ -118,7 +119,7 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
         const signer: Signer = {
           address: owner,
           transactions,
-          ...getSignersStatistics(safeAddress, owner, transactions)
+          ...getSignersStatistics(safeAddress, owner, transactions, safeTxServiceTransactions)
         }
         return signer
       }))
@@ -129,14 +130,15 @@ export const StatisticsProvider = ({ children }: { children: React.ReactNode }) 
       console.log('setSignersData', statistics)
     }
     setupSignersData()
-  }, [safeOwners])
+  }, [safeOwners, safeTxServiceTransactions])
 
   const state = {
     safeAddress,
     setSafeAddress,
     safeOwners,
     safeTransactions,
-    signersData
+    signersData,
+    safeTxServiceTransactions
   }
 
   return (

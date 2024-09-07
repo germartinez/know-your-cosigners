@@ -1,4 +1,4 @@
-import { Transaction } from '@/types'
+import { SafeTransaction, Transaction } from '@/types'
 
 export function isSameAddress(address1: string, address2: string) {
   return address1.toLowerCase() === address2.toLowerCase()
@@ -7,7 +7,8 @@ export function isSameAddress(address1: string, address2: string) {
 export function getSignersStatistics(
   safeAddress: string,
   signerAddress: string,
-  signerTransactions: Transaction[]
+  signerTransactions: Transaction[],
+  safeTxServiceTransactions: SafeTransaction[]
 ) {
   let totalGasUsed = 0n
   let totalSafeGasUsed = 0n
@@ -34,13 +35,23 @@ export function getSignersStatistics(
     totalSafeTxExecuted += isSafeTx ? 1 : 0
   }
 
+  const totalSafeTxSigned = safeTxServiceTransactions.filter(
+    tx => (
+      tx.isExecuted &&
+      tx.isSuccessful &&
+      tx.confirmations.some(o => isSameAddress(o.owner, signerAddress))
+    )
+  ).length
+  console.log(signerAddress, totalSafeTxSigned)
+
   const signerStatistics = {
     totalGasUsed,
     totalSafeGasUsed,
     totalTxFees,
     totalSafeTxFees,
     totalTxExecuted,
-    totalSafeTxExecuted
+    totalSafeTxExecuted,
+    totalSafeTxSigned
   }
   return signerStatistics
 }

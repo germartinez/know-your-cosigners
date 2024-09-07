@@ -20,6 +20,7 @@ export type Signer = {
   totalSafeTxFees: bigint
   totalTxExecuted: number
   totalSafeTxExecuted: number
+  totalSafeTxSigned: number
 }
 
 export type SafeTransaction = {
@@ -33,10 +34,10 @@ export type SafeTransaction = {
   isExecuted: boolean
   isSuccessful?: boolean
   confirmationsRequired: number
-  confirmations: {
+  confirmations: [{
     owner: string
     submissionDate: string
     signature: string
-  }
+  }]
   signatures?: string
 }
