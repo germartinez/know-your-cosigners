@@ -12,35 +12,36 @@ export default function Home() {
   }
 
   return (
-    <main className={safeAddress === '' ? "main-empty" : "main-list"}>
-      <h1 className={safeAddress === '' ? "h1-big" : "h1-small"}>
-        <span style={{ color: '#333333' }}>K</span>NOW
-        {safeAddress === '' ? <br/> : ' '}
-        <span style={{ color: '#333333' }}>Y</span>OUR
-        {safeAddress === '' ? <br/> : ' '}
-        <span style={{ color: '#333333' }}>C</span>O-SIGNERS
-      </h1>
-      <p className="instructions">Type a Safe address from Ethereum Mainnet:</p>
-      <input
-        type="text"
-        value={safeAddress}
-        onChange={updateSafeAddres}
-        autoFocus
-      />
-      {safeOwners && safeAddress?.length === 42 && (
-        <>
-          <div className="content">
+    <>
+      <header>
+        <div className={safeAddress ? "header-small" : "header-big"}>
+          <h1 className={safeAddress ? "title-small" : "title-big"}>KNOW YOUR CO-SIGNERS</h1>
+          <div className={safeAddress ? "search-small" : "search-big"}>
+            <input
+              type="text"
+              value={safeAddress}
+              onChange={updateSafeAddres}
+              autoFocus
+            />
+          </div>
+        </div>
+      </header>
+      <main>
+        {safeOwners && safeAddress?.length === 42 && (
+          <>
+            
             <div className="chart-box">
               <h2>Safe transactions {safeTransactions && `(${safeTransactions.length})`}</h2>
               <TxsFrequencyChart transactions={safeTransactions} color="black" height={300} />
             </div>
+            
             <div className="signers-box">
               <h2>Signers {safeOwners && `(${safeOwners.length})`}</h2>
               <SignerList />
             </div>
-          </div>
-        </>
-      )}
-    </main>
+          </>
+        )}
+      </main>
+    </>
   )
 }
